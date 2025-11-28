@@ -7,7 +7,7 @@ import Home from "../pages/admin/auth/Home"
 import Register from "../pages/admin/auth/Register"
 import { Navigate } from 'react-router-dom'
 import Login from "../pages/admin/auth/Login"
-import Error from '../pages/admin/error/error'
+import Error from '../pages/admin/error/Error'
 const Router = [
   {
     path: '/admin',
