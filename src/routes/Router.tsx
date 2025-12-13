@@ -4,10 +4,10 @@ import Dashboard from '../pages/admin/Dashboard'
 import AppLayout from '../layout/full/AppLayout'
 import BlankLayout from '../layout/blank/BlankLayout'
 import Home from "../pages/admin/auth/Home"
-import Register from "../pages/admin/auth/Register"
+import Register from "../pages/admin/auth/register/Register"
 import { Navigate } from 'react-router-dom'
-import Login from "../pages/admin/auth/Login"
-import Error from '../pages/admin/error/error'
+import Login from "../pages/admin/auth/login/Login"
+import Error from '../pages/admin/error/Error'
 const Router = [
   {
     path: '/admin',

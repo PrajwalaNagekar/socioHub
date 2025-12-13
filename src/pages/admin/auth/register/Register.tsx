@@ -9,26 +9,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Logo from "@/assets/images/logo.jpg";
 
-import type { RegisterFormValues } from "./register/types";
-import { registerValidationSchema } from "./register/schema";
-import { initialRegisterValues } from "./register/constants";
+import type { RegisterFormValues } from "./types";
+import { registerValidationSchema } from "./schema";
+import { initialRegisterValues } from "./constants";
 
 const Register = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (values: RegisterFormValues, { setSubmitting, resetForm }: FormikHelpers<RegisterFormValues>) => {
-
+  const handleSubmit = (
+    values: RegisterFormValues,
+    { setSubmitting, resetForm }: FormikHelpers<RegisterFormValues>
+  ) => {
     console.log("Form submitted:", values);
 
     // Simulate API delay
     setTimeout(() => {
       alert("Dummy submit successful!");
       resetForm();
-      setSubmitting(false); // <-- IMPORTANT
-      navigate('/login');
+      setSubmitting(false);
+      navigate("/login");
     }, 1000);
   };
-
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
@@ -70,7 +71,9 @@ const Register = () => {
                     name="email"
                     type="email"
                     placeholder="Mobile Number or Email"
-                    className={errors.email && touched.email ? "border-red-500" : ""}
+                    className={
+                      errors.email && touched.email ? "border-red-500" : ""
+                    }
                     aria-invalid={errors.email && touched.email ? "true" : "false"}
                   />
                   <ErrorMessage
@@ -88,7 +91,9 @@ const Register = () => {
                     name="fullName"
                     type="text"
                     placeholder="Full Name"
-                    className={errors.fullName && touched.fullName ? "border-red-500" : ""}
+                    className={
+                      errors.fullName && touched.fullName ? "border-red-500" : ""
+                    }
                     aria-invalid={errors.fullName && touched.fullName ? "true" : "false"}
                   />
                   <ErrorMessage
@@ -106,7 +111,9 @@ const Register = () => {
                     name="username"
                     type="text"
                     placeholder="Username"
-                    className={errors.username && touched.username ? "border-red-500" : ""}
+                    className={
+                      errors.username && touched.username ? "border-red-500" : ""
+                    }
                     aria-invalid={errors.username && touched.username ? "true" : "false"}
                   />
                   <ErrorMessage
@@ -124,7 +131,9 @@ const Register = () => {
                     name="password"
                     type="password"
                     placeholder="Password"
-                    className={errors.password && touched.password ? "border-red-500" : ""}
+                    className={
+                      errors.password && touched.password ? "border-red-500" : ""
+                    }
                     aria-invalid={errors.password && touched.password ? "true" : "false"}
                   />
                   <ErrorMessage
@@ -158,3 +167,4 @@ const Register = () => {
 };
 
 export default Register;
+

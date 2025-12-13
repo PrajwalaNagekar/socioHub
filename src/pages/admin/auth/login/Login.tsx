@@ -9,26 +9,27 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Logo from "@/assets/images/logo.jpg";
 
-import type { RegisterFormValues } from "./register/types";
-import { registerValidationSchema } from "./register/schema";
-import { initialRegisterValues } from "./register/constants";
+import type { LoginFormValues } from "./types";
+import { loginValidationSchema } from "./schema";
+import { initialLoginValues } from "./constants";
 
-const Register = () => {
+const Login = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (values: RegisterFormValues, { setSubmitting, resetForm }: FormikHelpers<RegisterFormValues>) => {
-
+  const handleSubmit = (
+    values: LoginFormValues,
+    { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
+  ) => {
     console.log("Form submitted:", values);
 
     // Simulate API delay
     setTimeout(() => {
-      alert("Dummy submit successful!");
+      alert("Dummy login successful!");
       resetForm();
-      setSubmitting(false); // <-- IMPORTANT
-      navigate('/login');
+      setSubmitting(false);
+      navigate("/admin/dashboard");
     }, 1000);
   };
-
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
@@ -36,13 +37,13 @@ const Register = () => {
         <CardHeader className="flex flex-col items-center gap-3">
           <img src={Logo} alt="Logo" className=" object-cover " />
           <CardTitle className="text-center text-lg font-semibold text-gray-700">
-            Sign up to see photos and videos from your friends.
+            Sign in to your account
           </CardTitle>
         </CardHeader>
 
         <Formik
-          initialValues={initialRegisterValues}
-          validationSchema={registerValidationSchema}
+          initialValues={initialLoginValues}
+          validationSchema={loginValidationSchema}
           onSubmit={handleSubmit}
         >
           {({ isSubmitting, errors, touched }) => (
@@ -63,54 +64,20 @@ const Register = () => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <Label htmlFor="email">Mobile Number or Email</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Field
                     as={Input}
                     id="email"
                     name="email"
                     type="email"
-                    placeholder="Mobile Number or Email"
-                    className={errors.email && touched.email ? "border-red-500" : ""}
+                    placeholder="Email"
+                    className={
+                      errors.email && touched.email ? "border-red-500" : ""
+                    }
                     aria-invalid={errors.email && touched.email ? "true" : "false"}
                   />
                   <ErrorMessage
                     name="email"
-                    component="div"
-                    className="text-sm text-red-500"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <Label htmlFor="fullName">Full Name</Label>
-                  <Field
-                    as={Input}
-                    id="fullName"
-                    name="fullName"
-                    type="text"
-                    placeholder="Full Name"
-                    className={errors.fullName && touched.fullName ? "border-red-500" : ""}
-                    aria-invalid={errors.fullName && touched.fullName ? "true" : "false"}
-                  />
-                  <ErrorMessage
-                    name="fullName"
-                    component="div"
-                    className="text-sm text-red-500"
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
-                  <Label htmlFor="username">Username</Label>
-                  <Field
-                    as={Input}
-                    id="username"
-                    name="username"
-                    type="text"
-                    placeholder="Username"
-                    className={errors.username && touched.username ? "border-red-500" : ""}
-                    aria-invalid={errors.username && touched.username ? "true" : "false"}
-                  />
-                  <ErrorMessage
-                    name="username"
                     component="div"
                     className="text-sm text-red-500"
                   />
@@ -124,7 +91,9 @@ const Register = () => {
                     name="password"
                     type="password"
                     placeholder="Password"
-                    className={errors.password && touched.password ? "border-red-500" : ""}
+                    className={
+                      errors.password && touched.password ? "border-red-500" : ""
+                    }
                     aria-invalid={errors.password && touched.password ? "true" : "false"}
                   />
                   <ErrorMessage
@@ -139,7 +108,7 @@ const Register = () => {
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Signing Up..." : "Sign Up"}
+                  {isSubmitting ? "Signing In..." : "Sign In"}
                 </Button>
               </CardContent>
             </Form>
@@ -147,9 +116,9 @@ const Register = () => {
         </Formik>
 
         <CardContent className="text-center text-sm text-gray-600">
-          Have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Log in
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-600 hover:underline">
+            Sign up
           </Link>
         </CardContent>
       </Card>
@@ -157,4 +126,5 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Login;
+
