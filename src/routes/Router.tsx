@@ -1,6 +1,6 @@
 import React, { Children } from 'react'
 import ProtectedRoutes from '../components/auth/ProtectedRoutes'
-import Dashboard from '../pages/admin/Dashboard'
+import Dashboard from '../pages/admin/Dashboard/Dashboard'
 import AppLayout from '../layout/full/AppLayout'
 import BlankLayout from '../layout/blank/BlankLayout'
 import Home from "../pages/admin/auth/Home"
@@ -8,6 +8,10 @@ import Register from "../pages/admin/auth/register/Register"
 import { Navigate } from 'react-router-dom'
 import Login from "../pages/admin/auth/login/Login"
 import Error from '../pages/admin/error/Error'
+import UserDashboard from "@/pages/user/Dashboard/Dasboard"
+import UserHome from "@/pages/user/Home"
+import Explore from "@/pages/user/Explore"
+
 const Router = [
   {
     path: '/admin',
@@ -23,6 +27,27 @@ const Router = [
           {
             path: 'friends', element: <Dashboard />,
           }
+        ]
+      },
+    ]
+  },
+  {
+    path: '/user',
+    element: <ProtectedRoutes />,
+    children: [
+      {
+        path: '',
+        element: <AppLayout />,
+        children: [
+          {
+            path: 'dashboard', element: <UserDashboard />,
+          },
+          {
+            path: 'home', element: <UserHome />,
+          },
+          {
+            path: 'explore', element: <Explore />,
+          },
         ]
       },
     ]

@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Logo from "@/assets/images/logo.jpg";
+import { adminUser, User } from "@/pages/admin/auth/Dummy/users/DummyUser";
 
 import type { LoginFormValues } from "./types";
 import { loginValidationSchema } from "./schema";
 import { initialLoginValues } from "./constants";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,14 +23,25 @@ const Login = () => {
     { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
   ) => {
     console.log("Form submitted:", values);
-
+    if (adminUser.email === "admin@gmail.com" && adminUser.password === "admin123") {
+      const token="dummy-token"
+      localStorage.setItem("token",token)
+      setTimeout(() => {
+        alert("Dummy login successful!");
+        resetForm();
+        setSubmitting(false);
+        navigate("/admin/dashboard");
+      }, 1000);
+    } else if (User.email === "prajwala@gmail.com" && User.password === "prajwala123") {
+      setTimeout(() => {
+        alert("Dummy login successful!");
+        resetForm();
+        setSubmitting(false);
+        navigate("/user/dashboard");
+      }, 1000);
+    }
     // Simulate API delay
-    setTimeout(() => {
-      alert("Dummy login successful!");
-      resetForm();
-      setSubmitting(false);
-      navigate("/admin/dashboard");
-    }, 1000);
+
   };
 
   return (
