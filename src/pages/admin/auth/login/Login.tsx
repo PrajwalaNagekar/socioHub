@@ -17,14 +17,15 @@ import { initialLoginValues } from "./constants";
 
 const Login = () => {
   const navigate = useNavigate();
-
+ const token="dummy-token"
   const handleSubmit = (
     values: LoginFormValues,
     { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
   ) => {
     console.log("Form submitted:", values);
-    if (adminUser.email === "admin@gmail.com" && adminUser.password === "admin123") {
-      const token="dummy-token"
+    if ( values.email === adminUser.email &&
+    values.password === adminUser.password) {
+     
       localStorage.setItem("token",token)
       setTimeout(() => {
         alert("Dummy login successful!");
@@ -32,7 +33,10 @@ const Login = () => {
         setSubmitting(false);
         navigate("/admin/dashboard");
       }, 1000);
-    } else if (User.email === "prajwala@gmail.com" && User.password === "prajwala123") {
+    } else if (values.email === User.email &&
+    values.password === User.password) {
+      console.log("hi");
+      localStorage.setItem("token",token)
       setTimeout(() => {
         alert("Dummy login successful!");
         resetForm();
@@ -40,7 +44,6 @@ const Login = () => {
         navigate("/user/dashboard");
       }, 1000);
     }
-    // Simulate API delay
 
   };
 
