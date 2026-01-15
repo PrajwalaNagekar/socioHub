@@ -2,7 +2,7 @@ import React from 'react'
 
 const index = () => {
     return (
-        <div>Home index</div>
+        <div>search index</div>
     )
 }
 

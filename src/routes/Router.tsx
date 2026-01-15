@@ -9,8 +9,11 @@ import { Navigate } from 'react-router-dom'
 import Login from "../pages/admin/auth/login/Login"
 import Error from '../pages/admin/error/Error'
 import UserDashboard from "@/pages/user/Dashboard/Dasboard"
-import UserHome from "@/pages/user/Home"
-import Explore from "@/pages/user/Explore"
+import UserHome from "@/pages/user/Home/index"
+import Explore from "@/pages/user/Explore/index"
+import Search from "@/pages/user/Search"
+import Messages from "@/pages/user/Messages/index"
+import Notifications from "@/pages/user/Notifications/index"
 
 const Router = [
   {
@@ -47,6 +50,18 @@ const Router = [
           },
           {
             path: 'explore', element: <Explore />,
+          },
+          {
+            path: 'search', element: <Search />,
+          },
+          {
+            path: 'notifications', element: <Notifications />,
+          },
+          {
+            path: 'messages', element: <Messages />,
+          },
+          {
+            path: 'messages', element: <Messages />,
           },
         ]
       },

@@ -9,23 +9,23 @@ const SidebarContent = () => {
         Home
       </NavLink>
 
-      <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
+      <NavLink to="/user/search" className="px-4 py-2 rounded hover:bg-muted">
         Search
       </NavLink>
 
       <NavLink to="/user/explore" className="px-4 py-2 rounded hover:bg-muted">
         Explore
       </NavLink>
-      <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
+      {/* <NavLink to="/user/messages" className="px-4 py-2 rounded hover:bg-muted">
         Reels
-      </NavLink>
-      <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
+      </NavLink> */}
+      <NavLink to="/user/messages" className="px-4 py-2 rounded hover:bg-muted">
         Messages
       </NavLink>
       <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
         Notifications
       </NavLink>
-      <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
+      {/* <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
         Create
       </NavLink>
       <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
@@ -36,7 +36,7 @@ const SidebarContent = () => {
       </NavLink>
       <NavLink to="/user/home" className="px-4 py-2 rounded hover:bg-muted">
         More
-      </NavLink>
+      </NavLink> */}
     </nav>
   );
 };
