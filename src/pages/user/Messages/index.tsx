@@ -1,5 +1,26 @@
-import React from "react";
+import React, { use } from "react";
 import user from "@/assets/images/user_default.jpg";
+const chatList = [
+    {
+        avatar: { user },
+        user: 'Friend_1',
+        message: 'Hello',
+        time: 'just now'
+    },
+    {
+        avatar: { user },
+        user: 'Friend_2',
+        message: 'Reached!!',
+        time: '3m'
+    },
+    {
+        avatar: { user },
+        user: 'Friend_3',
+        message: 'Bye',
+        time: '2h'
+    }
+
+]
 
 const Index = () => {
     return (
@@ -17,25 +38,27 @@ const Index = () => {
                 {/* Conversation List */}
                 <div className="flex-1 overflow-y-auto">
                     {/* Conversation items placeholder */}
-                    <li className="bg-red-500">
-                        <ul>
-                            <li className="p-2 text-center ">
-                                <div className="flex space-x-6">
-                                    <img src={user} height={10} width={50} alt="" />
-                                    <div className="">
-                                        <p className="font-bold">Friend_1</p>
+                    {chatList.map((chat, index) => (
+                        <li key={index} className="bg-red-500">
+                            <ul>
+                                <li className="p-2 text-center ">
+                                    <div className="flex space-x-6">
+                                        <img src={user} height={10} width={50} alt="" />
+                                        <div className="">
+                                            <p className="font-bold">Friend_1</p>
 
-                                        <div className="flex justify-between w-full text-sm text-gray-500">
-                                            <p>Message</p>
-                                            {/* <p>2h</p> */}
+                                            <div className="flex justify-between w-full text-sm text-gray-500">
+                                                <p>Message</p>
+                                                {/* <p>2h</p> */}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            {/* <li>Friend_2</li> */}
+                                </li>
+                                {/* <li>Friend_2</li> */}
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                    ))}
                 </div>
 
             </aside>
