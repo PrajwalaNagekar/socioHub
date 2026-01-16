@@ -2,6 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import type { FormikHelpers } from "formik";
 import { useNavigate, Link } from "react-router-dom";
 import { Facebook } from "lucide-react";
+import { toast, Toaster } from "react-hot-toast";
 
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,27 +13,48 @@ import Logo from "@/assets/images/logo.jpg";
 import type { RegisterFormValues } from "./types";
 import { registerValidationSchema } from "./schema";
 import { initialRegisterValues } from "./constants";
+import { register } from "@/api/auth/Index";
+import { useState } from "react";
 
 const Register = () => {
   const navigate = useNavigate();
-
-  const handleSubmit = (
+  const [status, setStatus] = useState()
+  const handleSubmit = async (
     values: RegisterFormValues,
     { setSubmitting, resetForm }: FormikHelpers<RegisterFormValues>
   ) => {
     console.log("Form submitted:", values);
+    try {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const isEmail = emailRegex.test(values.emailOrMobile);
 
-    // Simulate API delay
-    setTimeout(() => {
-      alert("Dummy submit successful!");
-      resetForm();
+      const payload = {
+        fullName: values.fullName,
+        username: values.username,
+        password: values.password,
+        [isEmail ? "email" : "phone"]: values.emailOrMobile,
+      };
+
+      console.log("API Payload:", payload);
+
+      const response = await register(payload);
+      console.log("regit response:", response);
+      toast.success("registration successful");
+      setTimeout(() => { resetForm(); navigate("/login"); }, 800);
+    } catch (error: any) {
+      console.error("Login error:", error);
+      toast.error("registration failed");
+      setStatus(error)
+
+    } finally {
       setSubmitting(false);
-      navigate("/login");
-    }, 1000);
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
+      <Toaster position="top-center" />
+
       <Card className="w-full max-w-md shadow-lg border rounded-2xl">
         <CardHeader className="flex flex-col items-center gap-3">
           <img src={Logo} alt="Logo" className=" object-cover " />
@@ -64,20 +86,20 @@ const Register = () => {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                  <Label htmlFor="email">Mobile Number or Email</Label>
+                  <Label htmlFor="emailOrMobile">Mobile Number or Email</Label>
                   <Field
                     as={Input}
-                    id="email"
-                    name="email"
-                    type="email"
+                    id="emailOrMobile"
+                    name="emailOrMobile"
+                    // type="email"
                     placeholder="Mobile Number or Email"
                     className={
-                      errors.email && touched.email ? "border-red-500" : ""
+                      errors.emailOrMobile && touched.emailOrMobile ? "border-red-500" : ""
                     }
-                    aria-invalid={errors.email && touched.email ? "true" : "false"}
+                    aria-invalid={errors.emailOrMobile && touched.emailOrMobile ? "true" : "false"}
                   />
                   <ErrorMessage
-                    name="email"
+                    name="emailOrMobile"
                     component="div"
                     className="text-sm text-red-500"
                   />

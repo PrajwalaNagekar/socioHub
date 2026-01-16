@@ -10,23 +10,28 @@ import { Label } from "@/components/ui/label";
 import Logo from "@/assets/images/logo.jpg";
 import { adminUser, User } from "@/pages/admin/auth/Dummy/users/DummyUser";
 
+//forms' values
 import type { LoginFormValues } from "./types";
 import { loginValidationSchema } from "./schema";
 import { initialLoginValues } from "./constants";
 
 
+//apis
+import { login } from "@/api/auth/Index";
+
 const Login = () => {
   const navigate = useNavigate();
- const token="dummy-token"
-  const handleSubmit = (
+  const token = "dummy-token"
+  const handleSubmit = async (
     values: LoginFormValues,
     { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
   ) => {
     console.log("Form submitted:", values);
-    if ( values.email === adminUser.email &&
-    values.password === adminUser.password) {
-     
-      localStorage.setItem("token",token)
+
+    if (values.email === adminUser.email &&
+      values.password === adminUser.password) {
+
+      localStorage.setItem("token", token)
       setTimeout(() => {
         alert("Dummy login successful!");
         resetForm();
@@ -34,9 +39,9 @@ const Login = () => {
         navigate("/admin/dashboard");
       }, 1000);
     } else if (values.email === User.email &&
-    values.password === User.password) {
+      values.password === User.password) {
       console.log("hi");
-      localStorage.setItem("token",token)
+      localStorage.setItem("token", token)
       setTimeout(() => {
         alert("Dummy login successful!");
         resetForm();
@@ -45,6 +50,12 @@ const Login = () => {
       }, 1000);
     }
 
+    // try {
+    //   const response = await login(values);
+    //   console.log("Login response:", response);
+    // } catch (error) {
+    //   console.error("Login error:", error);
+    // }
   };
 
   return (

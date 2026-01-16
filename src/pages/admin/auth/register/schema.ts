@@ -6,9 +6,23 @@ import * as Yup from "yup";
 import type { RegisterFormValues } from "./types";
 
 export const registerValidationSchema = Yup.object<RegisterFormValues>({
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
+  emailOrMobile: Yup.string()
+    .required("Email or mobile number is required")
+    .test(
+      "email-or-mobile",
+      "Enter a valid email or mobile number",
+      (value) => {
+        if (!value) return false;
+
+        const emailRegex =
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        const mobileRegex =
+          /^[6-9]\d{9}$/; // Indian 10-digit mobile
+
+        return emailRegex.test(value) || mobileRegex.test(value);
+      }
+    ),
   fullName: Yup.string()
     .min(2, "Full name must be at least 2 characters")
     .required("Full name is required"),

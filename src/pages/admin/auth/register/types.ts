@@ -3,7 +3,7 @@
  */
 
 export interface RegisterFormValues {
-  email: string;
+  emailOrMobile: string;
   fullName: string;
   username: string;
   password: string;

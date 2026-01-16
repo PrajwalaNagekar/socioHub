@@ -5,7 +5,7 @@
 import type { RegisterFormValues } from "./types";
 
 export const initialRegisterValues: RegisterFormValues = {
-  email: "",
+  emailOrMobile: "",
   fullName: "",
   username: "",
   password: "",

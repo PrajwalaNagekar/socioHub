@@ -12,7 +12,7 @@ const AppLayout = () => {
     <div className="flex h-screen">
       <SidebarDesktop />
 
-     
+
       <SidebarMobile
         open={sidebarOpen}
         onOpenChange={setSidebarOpen}
