@@ -1,31 +1,66 @@
-import React, { use } from "react";
-import user from "@/assets/images/user_default.jpg";
-const chatList = [
+import React, { use, useState } from "react";
+import userImg from "@/assets/images/user_default.jpg";
+type Messages = {
+    text: string;
+    sender: "me" | "other"
+}
+type Chat = {
+    id: any;
+    avatar: {
+        userImg: string;
+    };
+    message: string;
+    time: any;
+    messages: Messages[];
+
+    user: string
+}
+const chatList: Chat[] = [
     {
         id: 1,
-        avatar: { user },
-        user: 'Friend_1',
-        message: 'Hello',
-        time: 'just now'
+        avatar: { userImg },
+        user: "Friend_1",
+        message: "Hello",
+        time: "just now",
+        messages: [
+            { text: "hi", sender: "other" },
+            { text: "hello", sender: "me" },
+            { text: "how are you", sender: "other" },
+        ],
     },
     {
         id: 2,
-        avatar: { user },
-        user: 'Friend_2',
-        message: 'Reached!!',
-        time: '3m'
+        avatar: { userImg },
+        user: "Friend_2",
+        message: "Reached!!",
+        time: "3m",
+        messages: [
+            { text: "Come to walk", sender: "other" },
+            { text: "yes lets go", sender: "me" },
+            { text: "Okay", sender: "other" },
+        ],
     },
-    {
-        id: 3,
-        avatar: { user },
-        user: 'Friend_3',
-        message: 'Bye',
-        time: '2h'
-    }
+];
 
-]
+
 
 const Index = () => {
+    const [selectedUser, setSelectedUser] = useState<Chat | null>(null)
+    const [inputText, setInputText] = useState("")
+    const handleSendMessages = () => {
+        if (!selectedUser) return;
+        const newMessage: Messages = {
+            text: inputText,
+            sender: "me",
+        };
+
+        const updatedUser = {
+            ...selectedUser,
+            messages: [...selectedUser.messages, newMessage]
+        }
+        setSelectedUser(updatedUser)
+        setInputText("")
+    }
     return (
         <div className="w-full h-screen flex bg-gray-100">
 
@@ -42,11 +77,11 @@ const Index = () => {
                 <div className="flex-1 overflow-y-auto">
                     {/* Conversation items placeholder */}
                     {chatList.map((chat, index) => (
-                        <li key={index} className="">
+                        <li key={index} className="" >
                             <ul>
-                                <li className="p-2 text-center ">
+                                <li className="p-2 text-center hover:bg-gray-200" onClick={() => setSelectedUser(chat)} >
                                     <div className="flex space-x-6">
-                                        <img src={user} height={10} width={50} alt="" />
+                                        <img src={userImg} height={10} width={50} alt="" />
                                         <div className="">
                                             <p className="font-bold">{chat.user}</p>
 
@@ -71,19 +106,74 @@ const Index = () => {
 
                 {/* Chat Header */}
                 <div className="h-16 border-b flex items-center px-4">
-                    {/* Chat header placeholder */}
-                    <h1>hi</h1>
+                    {selectedUser ? (
+                        <div className="flex items-center gap-3">
+                            <img
+                                src={selectedUser.avatar.userImg}
+                                className="w-10 h-10 rounded-full"
+                                alt=""
+                            />
+                            <p className="font-semibold">{selectedUser.user}</p>
+                        </div>
+                    ) : (
+                        <p>Select a conversation</p>
+                    )}
                 </div>
+
 
                 {/* Messages Area */}
                 <div className="flex-1 overflow-y-auto px-4 py-2">
                     {/* Messages placeholder */}
+                    {selectedUser ? (
+                        <div>
+                            {
+                                selectedUser.messages.map((message) => (
+                                    <div className={`mb-2 flex ${message.sender === "me" ? "justify-end" : "justify-start"
+                                        }`}>
+                                        <p
+                                            className={`px-4 py-2 rounded-lg max-w-xs ${message.sender === "me"
+                                                ? "bg-blue-500 text-white"
+                                                : "bg-gray-200 text-black"
+                                                }`}
+                                        >{message.text}</p>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    ) : (
+                        <p>No user selected</p>
+                    )}
                 </div>
 
                 {/* Message Composer */}
-                <div className="h-20 border-t flex items-center px-4">
-                    {/* Input + send button placeholder */}
+                <div className="h-20 border-t flex items-center px-4 bg-white">
+                    {selectedUser ? (
+                        <div className="flex items-center w-full gap-3">
+                            {/* Emoji / Icon placeholder */}
+                            <div className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 cursor-pointer">
+                                +
+                            </div>
+
+                            {/* Text Input */}
+                            <input
+                                type="text"
+                                placeholder="Type anything to send"
+                                onChange={(e) => setInputText(e.target.value)}
+                                className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            />
+
+                            {/* Send Button */}
+                            <button className="text-blue-500 font-semibold hover:text-blue-600" onClick={handleSendMessages}>
+                                Send
+                            </button>
+                        </div>
+                    ) : (
+                        <p className="text-gray-400 text-center w-full">
+                            Select a conversation to start chatting
+                        </p>
+                    )}
                 </div>
+
 
             </main>
 
