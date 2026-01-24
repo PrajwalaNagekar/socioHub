@@ -2,18 +2,21 @@ import React, { use } from "react";
 import user from "@/assets/images/user_default.jpg";
 const chatList = [
     {
+        id: 1,
         avatar: { user },
         user: 'Friend_1',
         message: 'Hello',
         time: 'just now'
     },
     {
+        id: 2,
         avatar: { user },
         user: 'Friend_2',
         message: 'Reached!!',
         time: '3m'
     },
     {
+        id: 3,
         avatar: { user },
         user: 'Friend_3',
         message: 'Bye',
@@ -39,16 +42,16 @@ const Index = () => {
                 <div className="flex-1 overflow-y-auto">
                     {/* Conversation items placeholder */}
                     {chatList.map((chat, index) => (
-                        <li key={index} className="bg-red-500">
+                        <li key={index} className="">
                             <ul>
                                 <li className="p-2 text-center ">
                                     <div className="flex space-x-6">
                                         <img src={user} height={10} width={50} alt="" />
                                         <div className="">
-                                            <p className="font-bold">Friend_1</p>
+                                            <p className="font-bold">{chat.user}</p>
 
                                             <div className="flex justify-between w-full text-sm text-gray-500">
-                                                <p>Message</p>
+                                                <p>{chat.message}</p>
                                                 {/* <p>2h</p> */}
                                             </div>
                                         </div>
@@ -69,6 +72,7 @@ const Index = () => {
                 {/* Chat Header */}
                 <div className="h-16 border-b flex items-center px-4">
                     {/* Chat header placeholder */}
+                    <h1>hi</h1>
                 </div>
 
                 {/* Messages Area */}
