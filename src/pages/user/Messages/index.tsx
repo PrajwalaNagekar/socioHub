@@ -42,8 +42,6 @@ const chatList: Chat[] = [
     },
 ];
 
-
-
 const Index = () => {
     const [selectedUser, setSelectedUser] = useState<Chat | null>(null)
     const [inputText, setInputText] = useState("")
