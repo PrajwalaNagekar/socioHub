@@ -1,11 +1,12 @@
 import React, { use, useState } from "react";
 import userImg from "@/assets/images/user_default.jpg";
+import { getMessages } from "@/api/chat";
 type Messages = {
     text: string;
     sender: "me" | "other"
 }
 type Chat = {
-    id: any;
+    conversationId: any;
     avatar: {
         userImg: string;
     };
@@ -17,7 +18,7 @@ type Chat = {
 }
 const chatList: Chat[] = [
     {
-        id: 1,
+        conversationId: "69d0eecec93371c1f30ee327",
         avatar: { userImg },
         user: "Friend_1",
         message: "Hello",
@@ -29,7 +30,7 @@ const chatList: Chat[] = [
         ],
     },
     {
-        id: 2,
+        conversationId: 2,
         avatar: { userImg },
         user: "Friend_2",
         message: "Reached!!",
@@ -42,11 +43,15 @@ const chatList: Chat[] = [
     },
 ];
 
+
+
 const Index = () => {
-    const [selectedUser, setSelectedUser] = useState<Chat | null>(null)
+    const [selectedUser, setSelectedUser] = useState<any>(null)
+    const [messages, setMessages] = useState<any[]>([])
     const [inputText, setInputText] = useState("")
     const handleSendMessages = () => {
         if (!selectedUser) return;
+        console.log("selectedUser", selectedUser);
         const newMessage: Messages = {
             text: inputText,
             sender: "me",
@@ -59,6 +64,16 @@ const Index = () => {
         setSelectedUser(updatedUser)
         setInputText("")
     }
+    const handleSelectUser = async (chat: any) => {
+        setSelectedUser(chat);
+
+        try {
+            const res = await getMessages(chat.conversationId); // 🔥 IMPORTANT
+            setMessages(res.data.data);
+        } catch (error) {
+            console.error("Error fetching messages:", error);
+        }
+    };
     return (
         <div className="w-full h-screen flex flex-col bg-gray-100">
 
@@ -66,7 +81,7 @@ const Index = () => {
             <div className="h-24 bg-white border-b flex items-center px-4 overflow-x-auto space-x-4">
                 {chatList.map((chat) => (
                     <div
-                        key={chat.id}
+                        key={chat.conversationId}
                         className="flex flex-col items-center cursor-pointer"
                         onClick={() => setSelectedUser(chat)}
                     >
@@ -99,7 +114,7 @@ const Index = () => {
                         {chatList.map((chat, index) => (
                             <li key={index} className="" >
                                 <ul>
-                                    <li className="p-2 text-center hover:bg-gray-200" onClick={() => setSelectedUser(chat)} >
+                                    <li className="p-2 text-center hover:bg-gray-200" onClick={() => handleSelectUser(chat)}>
                                         <div className="flex space-x-6">
                                             <img src={userImg} height={10} width={50} alt="" />
                                             <div className="">
@@ -147,15 +162,20 @@ const Index = () => {
                         {selectedUser ? (
                             <div>
                                 {
-                                    selectedUser.messages.map((message) => (
-                                        <div className={`mb-2 flex ${message.sender === "me" ? "justify-end" : "justify-start"
-                                            }`}>
+                                    messages.map((msg: any) => (
+                                        <div
+                                            key={msg._id}
+                                            className={`mb-2 flex ${msg.isSender ? "justify-end" : "justify-start"
+                                                }`}
+                                        >
                                             <p
-                                                className={`px-4 py-2 rounded-lg max-w-xs ${message.sender === "me"
-                                                    ? "bg-blue-500 text-white"
-                                                    : "bg-gray-200 text-black"
+                                                className={`px-4 py-2 rounded-lg max-w-xs ${msg.isSender
+                                                        ? "bg-blue-500 text-white"
+                                                        : "bg-gray-200 text-black"
                                                     }`}
-                                            >{message.text}</p>
+                                            >
+                                                {msg.message}
+                                            </p>
                                         </div>
                                     ))
                                 }

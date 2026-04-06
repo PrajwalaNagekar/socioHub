@@ -19,37 +19,41 @@ import { useState } from "react";
 const Register = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState()
-  const handleSubmit = async (
-    values: RegisterFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<RegisterFormValues>
-  ) => {
-    console.log("Form submitted:", values);
-    try {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      const isEmail = emailRegex.test(values.emailOrMobile);
+ const handleSubmit = async (
+  values: RegisterFormValues,
+  { setSubmitting, resetForm }: FormikHelpers<RegisterFormValues>
+) => {
+  try {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isEmail = emailRegex.test(values.emailOrMobile);
 
-      const payload = {
-        fullName: values.fullName,
-        username: values.username,
-        password: values.password,
-        [isEmail ? "email" : "phone"]: values.emailOrMobile,
-      };
+    const payload = {
+      name: values.fullName,
+      userName: values.username,
+      password: values.password,
+      [isEmail ? "email" : "phone"]: values.emailOrMobile,
+    };
 
-      console.log("API Payload:", payload);
+    const response = await register(payload);
 
-      const response = await register(payload);
-      console.log("regit response:", response);
-      toast.success("registration successful");
-      setTimeout(() => { resetForm(); navigate("/login"); }, 800);
-    } catch (error: any) {
-      console.error("Login error:", error);
-      toast.error("registration failed");
-      setStatus(error)
+    console.log("Register response:", response);
 
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    toast.success("Registration successful 🚀");
+
+    resetForm();
+
+    // ✅ redirect to login
+    setTimeout(() => {
+      navigate("/login");
+    }, 800);
+
+  } catch (error: any) {
+    console.error("Register error:", error);
+    toast.error(error || "Registration failed");
+  } finally {
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">

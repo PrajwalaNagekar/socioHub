@@ -22,41 +22,41 @@ import { login } from "@/api/auth/Index";
 const Login = () => {
   const navigate = useNavigate();
   const token = "dummy-token"
-  const handleSubmit = async (
-    values: LoginFormValues,
-    { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
-  ) => {
-    console.log("Form submitted:", values);
+ const handleSubmit = async (
+  values: LoginFormValues,
+  { setSubmitting, resetForm }: FormikHelpers<LoginFormValues>
+) => {
+  try {
+    const response = await login(values);
 
-    if (values.email === adminUser.email &&
-      values.password === adminUser.password) {
+    console.log("Login response:", response);
 
-      localStorage.setItem("token", token)
-      setTimeout(() => {
-        alert("Dummy login successful!");
-        resetForm();
-        setSubmitting(false);
-        navigate("/admin/dashboard");
-      }, 1000);
-    } else if (values.email === User.email &&
-      values.password === User.password) {
-      console.log("hi");
-      localStorage.setItem("token", token)
-      setTimeout(() => {
-        alert("Dummy login successful!");
-        resetForm();
-        setSubmitting(false);
-        navigate("/user/dashboard");
-      }, 1000);
+    const { user, role, accessToken } = response.data.data;
+
+    // ✅ Store token
+    localStorage.setItem("token", accessToken);
+
+    // ✅ Store role (important)
+    localStorage.setItem("role", role);
+
+    alert("Login successful!");
+
+    resetForm();
+    setSubmitting(false);
+
+    // ✅ Redirect based on role
+    if (role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/user/dashboard");
     }
 
-    // try {
-    //   const response = await login(values);
-    //   console.log("Login response:", response);
-    // } catch (error) {
-    //   console.error("Login error:", error);
-    // }
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    alert(error);
+    setSubmitting(false);
+  }
+};
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
